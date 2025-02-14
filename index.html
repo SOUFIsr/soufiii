@@ -7,17 +7,21 @@
     <style>
         /* Background Animation */
         body {
-            background: linear-gradient(45deg, #ff758c, #ff7eb3, #fad0c4);
-            background-size: 200% 200%;
-            animation: gradientAnimation 6s infinite alternate;
+            background: radial-gradient(circle, #ff758c, #ff7eb3, #fad0c4);
+            animation: backgroundPulse 6s infinite alternate;
             text-align: center;
             font-family: Arial, sans-serif;
             overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
         }
 
-        @keyframes gradientAnimation {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 100% 50%; }
+        @keyframes backgroundPulse {
+            0% { background-size: 100%; }
+            100% { background-size: 110%; }
         }
 
         /* Fade-in Effect */
@@ -25,6 +29,7 @@
             opacity: 0;
             transform: translateY(-20px);
             animation: fadeIn 1.5s forwards ease-out;
+            text-align: center;
         }
 
         @keyframes fadeIn {
@@ -37,14 +42,20 @@
         h1 {
             color: red;
             font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 18px;
+            color: darkred;
         }
 
         .heart {
             font-size: 80px;
             cursor: pointer;
-            display: inline-block;
-            position: relative;
             transition: transform 0.3s ease-in-out;
+            position: relative;
+            margin-top: 20px;
         }
 
         /* Explosion Effect */
@@ -60,8 +71,8 @@
         /* Fireworks */
         .firework {
             position: absolute;
-            width: 5px;
-            height: 5px;
+            width: 6px;
+            height: 6px;
             background: yellow;
             border-radius: 50%;
             opacity: 1;
@@ -97,6 +108,7 @@
             overflow: hidden;
             width: 0;
             animation: typing 2s steps(30) forwards;
+            margin-top: 20px;
         }
 
         @keyframes typing {
@@ -107,7 +119,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Fuck Valentine's Day, I love u everyday ♾️❤️ :3</h1>
+        <h1>Fuck Valentine's Day, I love u everyday♾️❤️ :3</h1>
         <p>Be a good girl and click the heart!</p>
         <div class="heart" onclick="explodeHeart()">💝</div>
         <p id="message"></p>
@@ -118,6 +130,11 @@
             var heart = document.querySelector('.heart');
             var message = document.getElementById('message');
 
+            // Get heart position
+            var rect = heart.getBoundingClientRect();
+            var heartX = rect.left + rect.width / 2;
+            var heartY = rect.top + rect.height / 2;
+
             // Heart Explosion Effect
             heart.classList.add('explode');
 
@@ -125,11 +142,13 @@
             for (let i = 0; i < 10; i++) {
                 let firework = document.createElement('div');
                 firework.classList.add('firework');
-                firework.style.setProperty('--x', (Math.random() * 200 - 100) + 'px');
-                firework.style.setProperty('--y', (Math.random() * 200 - 100) + 'px');
+                let angle = Math.random() * 2 * Math.PI;
+                let distance = 100 + Math.random() * 50;
+                firework.style.setProperty('--x', Math.cos(angle) * distance + 'px');
+                firework.style.setProperty('--y', Math.sin(angle) * distance + 'px');
                 firework.style.background = `hsl(${Math.random() * 360}, 100%, 70%)`;
-                firework.style.left = (heart.offsetLeft + 40) + 'px';
-                firework.style.top = (heart.offsetTop + 30) + 'px';
+                firework.style.left = heartX + 'px';
+                firework.style.top = heartY + 'px';
                 document.body.appendChild(firework);
                 setTimeout(() => { firework.remove(); }, 1000);
             }
@@ -139,8 +158,8 @@
                 let floatingHeart = document.createElement('div');
                 floatingHeart.classList.add('floating-heart');
                 floatingHeart.innerHTML = '❤️';
-                floatingHeart.style.left = (heart.offsetLeft + Math.random() * 100 - 50) + 'px';
-                floatingHeart.style.top = (heart.offsetTop - 30) + 'px';
+                floatingHeart.style.left = (heartX + Math.random() * 50 - 25) + 'px';
+                floatingHeart.style.top = (heartY - 30) + 'px';
                 document.body.appendChild(floatingHeart);
                 setTimeout(() => { floatingHeart.remove(); }, 1500);
             }

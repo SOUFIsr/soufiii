@@ -5,18 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Valentine's Day Surprise</title>
     <style>
-        /* Background Animation */
+        /* Fullscreen Center */
         body {
             background: radial-gradient(circle, #ff758c, #ff7eb3, #fad0c4);
             animation: backgroundPulse 6s infinite alternate;
             text-align: center;
             font-family: Arial, sans-serif;
             overflow: hidden;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            flex-direction: column;
         }
 
         @keyframes backgroundPulse {
@@ -24,19 +23,18 @@
             100% { background-size: 110%; }
         }
 
-        /* Fade-in Effect */
+        /* Centered Content */
         .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             opacity: 0;
-            transform: translateY(-20px);
             animation: fadeIn 1.5s forwards ease-out;
-            text-align: center;
         }
 
         @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            to { opacity: 1; }
         }
 
         h1 {
@@ -50,12 +48,13 @@
             color: darkred;
         }
 
+        /* Bigger Heart */
         .heart {
-            font-size: 80px;
+            font-size: 100px;
             cursor: pointer;
             transition: transform 0.3s ease-in-out;
-            position: relative;
             margin-top: 20px;
+            display: inline-block;
         }
 
         /* Explosion Effect */
@@ -71,8 +70,8 @@
         /* Fireworks */
         .firework {
             position: absolute;
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
             background: yellow;
             border-radius: 50%;
             opacity: 1;
@@ -97,7 +96,7 @@
             100% { opacity: 0; transform: translateY(-100px); }
         }
 
-        /* Typing Effect */
+        /* Fixed Typing Effect */
         #message {
             font-size: 20px;
             color: darkred;
@@ -107,8 +106,7 @@
             border-right: 2px solid transparent;
             overflow: hidden;
             width: 0;
-            animation: typing 2s steps(30) forwards;
-            margin-top: 20px;
+            visibility: hidden;
         }
 
         @keyframes typing {
@@ -119,7 +117,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Fuck Valentine's Day, I love u everyday♾️❤️ :3</h1>
+        <h1>Fuck Valentine's Day, I love u everyday ♾️❤️ :3</h1>
         <p>Be a good girl and click the heart!</p>
         <div class="heart" onclick="explodeHeart()">💝</div>
         <p id="message"></p>
@@ -129,6 +127,11 @@
         function explodeHeart() {
             var heart = document.querySelector('.heart');
             var message = document.getElementById('message');
+
+            // Reset Message Before Typing
+            message.innerHTML = "";
+            message.style.width = "0";
+            message.style.visibility = "visible";
 
             // Get heart position
             var rect = heart.getBoundingClientRect();
@@ -167,8 +170,6 @@
             // Typing Effect for Message
             let text = "I LOVE YOU MY BABY PRINCESS! ❤️💕 MWAH💋";
             let index = 0;
-            message.innerHTML = "";
-            message.style.width = "0";
             let typing = setInterval(() => {
                 if (index < text.length) {
                     message.innerHTML += text[index];

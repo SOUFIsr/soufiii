@@ -96,17 +96,17 @@
             100% { opacity: 0; transform: translateY(-100px); }
         }
 
-        /* Fixed Typing Effect */
+        /* Typing Effect (Fixed) */
         #message {
             font-size: 20px;
             color: darkred;
             font-weight: bold;
-            display: inline-block;
+            display: block;
             white-space: nowrap;
             border-right: 2px solid transparent;
             overflow: hidden;
             width: 0;
-            visibility: hidden;
+            margin-top: 20px;
         }
 
         @keyframes typing {
@@ -131,6 +131,7 @@
             // Reset Message Before Typing
             message.innerHTML = "";
             message.style.width = "0";
+            message.style.display = "block"; // Ensure it's visible
             message.style.visibility = "visible";
 
             // Get heart position

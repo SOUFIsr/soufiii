@@ -10,22 +10,86 @@
             text-align: center;
             font-family: Arial, sans-serif;
         }
-        h1 { color: red; }
+
+        h1 {
+            color: red;
+        }
+
         .heart {
             font-size: 50px;
             cursor: pointer;
+            display: inline-block;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .heart.clicked {
+            transform: scale(1.5);
+            animation: bounce 0.6s ease-in-out;
+        }
+
+        @keyframes bounce {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.7); }
+            100% { transform: scale(1.2); }
+        }
+
+        .floating-hearts {
+            position: absolute;
+            color: red;
+            font-size: 20px;
+            animation: float 1.5s ease-in-out forwards;
+        }
+
+        @keyframes float {
+            0% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-100px); }
+        }
+
+        #message {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            font-size: 18px;
+            color: darkred;
+            font-weight: bold;
+        }
+
+        #message.show {
+            opacity: 1;
         }
     </style>
 </head>
 <body>
-    <h1>Fuck valentine's day, I love u everyday♾️❤️ :3</h1>
+    <h1>Fuck Valentine's Day, I love u everyday ♾️❤️ :3</h1>
     <p>Be a good girl and click the heart!</p>
     <div class="heart" onclick="showMessage()">💝</div>
-    <p id="message" style="display: none;">I LOVE YOU MY BABY PRINCESS! ❤️💕 MWAH💋</p>
+    <p id="message">I LOVE YOU MY BABY PRINCESS! ❤️💕 MWAH💋</p>
 
     <script>
         function showMessage() {
-            document.getElementById("message").style.display = "block";
+            var heart = document.querySelector('.heart');
+            var message = document.getElementById('message');
+
+            heart.classList.add('clicked');
+            message.classList.add('show');
+
+            // Create floating hearts effect
+            for (let i = 0; i < 5; i++) {
+                let floatingHeart = document.createElement('div');
+                floatingHeart.classList.add('floating-hearts');
+                floatingHeart.innerHTML = '❤️';
+                floatingHeart.style.left = (heart.offsetLeft + Math.random() * 50 - 25) + 'px';
+                floatingHeart.style.top = (heart.offsetTop - 20) + 'px';
+                document.body.appendChild(floatingHeart);
+
+                setTimeout(() => {
+                    floatingHeart.remove();
+                }, 1500);
+            }
+
+            // Remove the bounce effect after animation
+            setTimeout(() => {
+                heart.classList.remove('clicked');
+            }, 600);
         }
     </script>
 </body>
